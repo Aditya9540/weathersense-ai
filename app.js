@@ -103,12 +103,17 @@ async function getRisk() {
 
 async function refreshData() {
   try {
-    await Promise.all([
-      getTelemetry(),
-      getPrediction(),
-      getAnomaly(),
-      getRisk()
-    ]);
+    // Step 1: Get the newest sensor readings
+    await getTelemetry();
+
+    // Step 2: Calculate prediction using newest readings
+    await getPrediction();
+
+    // Step 3: Detect anomalies using newest readings
+    await getAnomaly();
+
+    // Step 4: Calculate risk using newest prediction + anomaly
+    await getRisk();
 
     state.online = true;
 
